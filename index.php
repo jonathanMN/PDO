@@ -36,3 +36,67 @@ if(isset($_POST['create']))
 	 **/
 	$crud->create($_POST['name'], $_POST['email']);
 }
+
+
+/***
+ * Reading/Viewing Database Contents
+ *
+ * Using PDO::FETCH_OBJ, PDO::FETCH_NUM
+ *
+ **/
+echo '<h1><u>READ</u></h1>';
+
+/***
+ * Viewing Values in the database
+ *
+ * Using PDO::FETCH_OBJ
+ *
+ **/
+echo '<h3>PDO::FETCH_OBJ</h3>';
+if($crud->read())
+{
+	$query = $crud->read();
+	echo '<table border=1 style="border-collapse:collapse;" cellpadding=3>';
+	echo '
+		<tr>
+			<th>Name<th>Email</th>
+		</tr>';
+		while($r = $query->fetch(PDO::FETCH_OBJ))
+		{
+			echo '
+				<tr>
+					<td>'.$r->name.'<td>'.$r->email.'</td>
+				</tr>';
+		}
+
+	echo '</table>';
+
+} else 'No Record Found';
+
+/***
+ * Viewing Values in the database
+ *
+ * Using PDO::FETCH_NUM
+ *
+ **/
+echo '<h3>PDO::FETCH_NUM</h3>';
+if($crud->read())
+{
+	$query = $crud->read();
+
+	echo '<table border=1 style="border-collapse:collapse;" cellpadding=3>';
+	echo '
+		<tr>
+			<th>Name<th>Email</th>
+		</tr>';
+		while($r = $query->fetch(PDO::FETCH_NUM))
+		{
+			echo '
+				<tr>
+					<td>'.$r[1].'<td>'.$r[2].'</td>
+				</tr>';
+		}
+
+	echo '</table>';
+
+} else 'No Record Found';

@@ -27,4 +27,24 @@ class Crud extends Database
 		}
 	}
 
+	public function read()
+	{
+		try
+		{
+			$query = $this->conn->prepare("SELECT * FROM users");
+			$query->execute();
+			
+			if($query->rowCount())
+			{
+				return $query;
+			}
+			else return false;
+
+		}
+		catch (PDOException $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 }
