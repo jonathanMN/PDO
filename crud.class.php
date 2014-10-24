@@ -1,5 +1,9 @@
 <?php
 
+/***
+ * Extend Database Class 
+ * to grab connection string
+ **/
 class Crud extends Database
 {
 
