@@ -100,3 +100,54 @@ if($crud->read())
 	echo '</table>';
 
 } else 'No Record Found';
+
+
+/***
+ * Updataing Records
+ *
+ **/
+echo '<h1 id="ud"><u>Update & Delete Record</u></h1>';
+if($crud->read())
+{
+	$query = $crud->read();
+
+	echo '<table border=1 style="border-collapse:collapse;" cellpadding=3>';
+	echo '
+		<tr>
+			<th>Name<th>Email</th>
+		</tr>';
+		while($r = $query->fetch(PDO::FETCH_NUM))
+		{
+			echo '
+				<tr id="r'.$r[0].'">
+					<form action="" method="post">
+					<td><input type="text" name="name" value="'.$r[1].'" required />
+					<td><input type="email" name="email" value="'.$r[2].'" required />
+					<td><input type="hidden" name="id" value="'.$r[0].'" required />
+					<input type="submit" name="update" value="Update" />
+					<td><a href="?delId='.$r[0].'" >Delete</a>
+					</td>
+					</form>
+				</tr>';
+		}
+
+	echo '</table>';
+
+} else 'No Record Found';
+
+// For Update record
+if(isset($_POST['update']))
+{
+	$vals = array(
+		$_POST['name'],
+		$_POST['email'],
+		$_POST['id']
+	);
+	$crud->update($vals);
+}
+
+// For Delete record
+if(isset($_GET['delId']))
+{
+	$crud->delete($_GET['delId']);
+}

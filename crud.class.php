@@ -3,11 +3,10 @@
 class Crud extends Database
 {
 
-	/**
+	/***
 	 * Recieved values from the create form
 	 *
 	 * $name and $email
-	 *
 	 **/
 	public function create($name, $email)
 	{
@@ -27,6 +26,9 @@ class Crud extends Database
 		}
 	}
 
+	/***
+	 * View database values
+	 **/
 	public function read()
 	{
 		try
@@ -47,4 +49,47 @@ class Crud extends Database
 		}
 	}
 
+	/***
+	 * Updating record
+	 *
+	 * passing array values
+	 **/
+	public function update($vals)
+	{
+		$idI = count($vals)-1;
+		$id = $vals[$idI];
+		try
+		{
+			$query = $this->conn->prepare("UPDATE users SET name=?, email=? WHERE id=?");
+			$query->execute($vals); //passed array values
+			if($query)
+			{
+				header('Location: '.$_SERVER['PHP_SELF'].'#r'.$id.'');
+			}
+		}
+		catch (PDOException $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	/***
+	 * Deleting record
+	 **/
+	public function delete($id)
+	{
+		try
+		{
+			$query = $this->conn->prepare("DELETE FROM users WHERE id=?");
+			$query->execute(array($id)); // id of the record to be deleted
+			if($query)
+			{
+				header('Location: '.$_SERVER['PHP_SELF'].'#ud');
+			}
+		}
+		catch (PDOException $e)
+		{
+			die($e->getMessage());
+		}
+	}
 }
